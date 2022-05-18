@@ -71,6 +71,7 @@ export interface Options {
 	transformString?: TransformStringFunction,
 	scorer?: ScorerFunction,
 	config?: Config
+	keysWeight?: Record<string, number>
 }
 
 /**

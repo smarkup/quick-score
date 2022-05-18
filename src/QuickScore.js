@@ -105,6 +105,9 @@ export class QuickScore {
 	 * `scorer` function has a `createConfig()` method on it, the `QuickScore`
 	 * instance will call that with the `config` value and store the result.
 	 * This can be used to extend the `config` parameter with default values.
+	 *
+	 * @param {object} [options.keysWeight]  Adjust score of keys. By default, all
+	 * keys are equal (their weight = 1).
 	 */
 	constructor(
 		items = [],
@@ -116,7 +119,8 @@ export class QuickScore {
 			keys = [],
 			sortKey = "",
 			minimumScore = 0,
-			config
+			config,
+			keysWeight
 		} = Array.isArray(options)
 			? { keys: options }
 			: options;
@@ -133,6 +137,7 @@ export class QuickScore {
 
 		this.setKeys(keys, sortKey);
 		this.setItems(items);
+		this.setKeysWeight(keysWeight);
 
 			// the scoring function needs access to this.sortKey
 		this.compareScoredStrings = this.compareScoredStrings.bind(this);
@@ -216,6 +221,8 @@ export class QuickScore {
 				}
 			}
 		} else {
+			const keysWeight = this.keysWeight || {};
+
 			for (let i = 0; i < itemCount; i++) {
 				const item = items[i];
 				const transformedItem = transformedItems[i];
@@ -242,6 +249,7 @@ export class QuickScore {
 						// use the key as the name if it's just a string, and
 						// default to the instance's scorer function
 					const {name = key, scorer = this.scorer} = key;
+					const keyWeight = keysWeight[name] || 1;
 					const transformedString = transformedItem[name];
 
 						// setItems() checks for non-strings and empty strings
@@ -252,7 +260,7 @@ export class QuickScore {
 						const string = this.getItemString(item, key);
 						const matches = [];
 						const newScore = scorer(string, query, matches,
-							transformedString, transformedQuery, config);
+							transformedString, transformedQuery, config) * keyWeight;
 
 						result.scores[name] = newScore;
 						result.matches[name] = matches;
@@ -333,6 +341,15 @@ export class QuickScore {
 		}
 	}
 
+	/**
+	 * Set keys weight field.
+	 *
+	 * @param {object} keysWeight  Mapped keys (string) to their weight (number).
+	 * @private
+	 */
+	setKeysWeight(keysWeight) {
+		this.keysWeight = keysWeight;
+	}
 
 	/**
 	 * Sets the `items` array and caches a transformed copy of all the item
