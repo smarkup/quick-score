@@ -1,5 +1,5 @@
 {
-  "name": "quick-score",
+  "name": "@smarkup/quick-score",
   "version": "0.1.0",
   "description": "A JavaScript string-scoring and fuzzy-matching library based on the Quicksilver algorithm, designed for smart auto-complete.",
   "keywords": [
@@ -18,7 +18,6 @@
   ],
   "license": "MIT",
   "author": "John Dunning (https://github.com/fwextensions)",
-  "repository": "github:fwextensions/quick-score",
   "homepage": "https://fwextensions.github.io/quick-score-demo",
   "bugs": "https://github.com/fwextensions/quick-score/issues",
   "main": "lib/index.js",
