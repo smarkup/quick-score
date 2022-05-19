@@ -1,6 +1,6 @@
 {
   "name": "@smarkup/quick-score",
-  "version": "0.1.0",
+  "version": "0.1.1-keys-weight.0",
   "description": "A JavaScript string-scoring and fuzzy-matching library based on the Quicksilver algorithm, designed for smart auto-complete.",
   "keywords": [
     "string",
